@@ -1,0 +1,1 @@
+# AulaVanguardia-Full
