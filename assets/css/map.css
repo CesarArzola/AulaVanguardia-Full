@@ -1,0 +1,112 @@
+/* ==========================================================================
+   SAFE SCHOOL - Estilos del Plano Vectorial SVG
+   ========================================================================== */
+
+/* 1. CONTENEDOR DEL MAPA */
+#map-container {
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    cursor: grab;
+    /* Permite arrastrar el mapa */
+    user-select: none;
+}
+
+#map-container:active {
+    cursor: grabbing;
+}
+
+#school-map {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s ease-out;
+    /* Suaviza el Zoom/Pan */
+}
+
+/* 2. ESTILOS DE LAS SALAS Y OBJETOS SVG (Ahora totalmente interactivos) */
+.room-shape,
+#school-map path, 
+#school-map rect, 
+#school-map polygon {
+    transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+    cursor: pointer; /* Hace que el cursor cambie a la "manito" */
+}
+
+/* Feedback visual al pasar sobre una sala o sector */
+.room-shape:hover,
+#school-map path:hover, 
+#school-map rect:hover, 
+#school-map polygon:hover {
+    stroke: #333 !important;
+    stroke-width: 3px !important;
+    filter: brightness(0.85) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Texto dentro de las salas */
+.room-label {
+    font-size: 11px;
+    font-weight: 600;
+    fill: #334155;
+    pointer-events: none;
+    /* Permite hacer clic en la sala sin bloquear el texto */
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* 3. ESTADOS DINÁMICOS Y ANIMACIONES DE EMERGENCIA */
+
+/* Animación parpadeante para la sala en estado de ALARMA CRÍTICA */
+@keyframes panicPulse {
+    0% {
+        fill: #dc3545;
+        filter: drop-shadow(0 0 2px #dc3545);
+    }
+    50% {
+        fill: #ff6b6b;
+        filter: drop-shadow(0 0 12px #dc3545);
+    }
+    100% {
+        fill: #dc3545;
+        filter: drop-shadow(0 0 2px #dc3545);
+    }
+}
+
+/* Estado: Alerta Roja (Pelea / Peligro inminente) */
+.estado-alerta,
+.room-alarm {
+    animation: panicPulse 0.8s infinite alternate !important;
+    fill: #dc3545 !important;
+    stroke: #842029 !important;
+    stroke-width: 3px !important;
+}
+
+/* Estado: Advertencia Amarilla (Conflicto leve / Sospecha) */
+.estado-advertencia,
+.room-warning {
+    fill: #ffc107 !important;
+    stroke: #d39e00 !important;
+    stroke-width: 2px !important;
+}
+
+/* 4. RUTAS DE EVACUACIÓN Y PUNTOS DE REUNIÓN */
+.evacuation-route {
+    stroke: #0d6efd;
+    stroke-dasharray: 6;
+    stroke-width: 2;
+    animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -12;
+    }
+}
+
+.meeting-point {
+    fill: #198754;
+    stroke: #ffffff;
+    stroke-width: 2px;
+    transition: transform 0.2s ease;
+}
+
+.meeting-point:hover {
+    transform: scale(1.2);
+}

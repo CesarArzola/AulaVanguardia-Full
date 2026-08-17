@@ -1,0 +1,164 @@
+/* ==========================================================================
+   SAFE SCHOOL - Estilos Principales
+   Arquitectura: CSS3 Modular / Variables CSS
+   ========================================================================== */
+
+/* 1. VARIABLES GLOBALES (PALETA DE COLORES Y CONFIGURACIÓN) */
+:root {
+    --bg-main: #f8f9fa;
+    --sidebar-bg: #0f2027;
+    --sidebar-hover: #1e3a45;
+    --sidebar-width: 260px;
+
+    --color-primary: #0d6efd;
+    --color-success: #198754;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;
+    --color-info: #0dcaf0;
+    --color-dark: #212529;
+
+    --transition-fast: all 0.2s ease-in-out;
+    --transition-normal: all 0.3s ease-in-out;
+    --shadow-card: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-card-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+}
+
+/* Modo Oscuro (Preparado para Fase de Configuración) */
+[data-bs-theme="dark"] {
+    --bg-main: #121212;
+    --sidebar-bg: #050b0e;
+}
+
+/* 2. CONFIGURACIÓN GENERAL Y NAVEGACIÓN SUAVE */
+html {
+    scroll-behavior: smooth;
+    /* Permite desplazamiento suave al hacer clic en enlaces internos */
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--color-dark);
+    overflow-x: hidden;
+}
+
+/* Compensación de desplazamiento para que los encabezados no queden tapados por la topbar fija */
+section[id] {
+    scroll-margin-top: 80px;
+}
+
+/* 3. ESTRUCTURA Y LAYOUT (SIDEBAR & CONTENT) */
+#wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar-wrapper {
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    min-height: 100vh;
+    transition: margin var(--transition-normal);
+    z-index: 1000;
+}
+
+/* Estado colapsado para móviles */
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+#page-content-wrapper {
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+/* 4. MENÚ LATERAL Y NAVEGACIÓN INTERACTIVA */
+#sidebar-menu .list-group-item {
+    border: none;
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#sidebar-menu .list-group-item:hover:not(.active) {
+    background-color: var(--sidebar-hover) !important;
+    color: #ffffff !important;
+    transform: translateX(4px);
+    /* Feedback visual al pasar el cursor */
+}
+
+#sidebar-menu .list-group-item.active {
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+/* 5. TARJETAS Y COMPONENTES DEL DASHBOARD */
+.card {
+    transition: var(--transition-normal);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* Estilos para el Feed de Incidentes */
+#incident-feed {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+#incident-feed::-webkit-scrollbar {
+    width: 6px;
+}
+
+#incident-feed::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+#incident-feed::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.incident-item {
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+
+.incident-item:hover {
+    transform: scale(1.01);
+}
+
+/* 6. BOTONES Y ESTADOS DE INTERACCIÓN */
+.btn {
+    transition: var(--transition-fast);
+    font-weight: 500;
+}
+
+.btn:active {
+    transform: scale(0.97);
+    /* Efecto de pulsación realista */
+}
+
+#btn-alerta-general {
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+#btn-alerta-general:hover {
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.6);
+}
+
+/* 7. ADAPTABILIDAD RESPONSIVE */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: calc(-1 * var(--sidebar-width));
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+}

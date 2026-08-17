@@ -1,0 +1,144 @@
+{
+    "estadisticasGenerales": {
+        "totalAlumnos": 1248,
+        "totalDocentes": 108,
+        "alarmasActivas": 2,
+        "incidentesHoy": 12,
+        "porcentajeSeguridad": 85
+    },
+    "usuarios": [
+        {
+            "id": "usr-01",
+            "nombre": "Carlos Ramírez",
+            "correo": "c.ramirez@colegio.cl",
+            "cargo": "Inspector General",
+            "perfil": "Inspector",
+            "fotografia": "assets/images/avatar.png",
+            "estado": "activo"
+        },
+        {
+            "id": "usr-02",
+            "nombre": "Admin Sistema",
+            "correo": "admin@colegio.cl",
+            "cargo": "Administrador TI",
+            "perfil": "Administrador",
+            "fotografia": "assets/images/avatar.png",
+            "estado": "activo"
+        },
+        {
+            "id": "usr-03",
+            "nombre": "María González",
+            "correo": "m.gonzalez@colegio.cl",
+            "cargo": "Docente Jefa",
+            "perfil": "Docente",
+            "fotografia": "assets/images/avatar.png",
+            "estado": "activo"
+        }
+    ],
+    "historialIncidentes": [
+        {
+            "id": "INC-001",
+            "hora": "10:21 AM",
+            "fecha": "2026-05-20",
+            "lugar": "Biblioteca",
+            "tipo": "Botón de pánico activado",
+            "inspector": "Carlos Ramírez",
+            "estado": "ACTIVA",
+            "nivelNovedad": "danger"
+        },
+        {
+            "id": "INC-002",
+            "hora": "09:47 AM",
+            "fecha": "2026-05-20",
+            "lugar": "Patio Central",
+            "tipo": "Altercado entre estudiantes",
+            "inspector": "Carlos Ramírez",
+            "estado": "EN PROCESO",
+            "nivelNovedad": "warning"
+        },
+        {
+            "id": "INC-003",
+            "hora": "09:15 AM",
+            "fecha": "2026-05-20",
+            "lugar": "Sala 105",
+            "tipo": "Sospecha de agresión verbal",
+            "inspector": "Ana Silva",
+            "estado": "REGISTRADO",
+            "nivelNovedad": "primary"
+        },
+        {
+            "id": "INC-004",
+            "hora": "08:30 AM",
+            "fecha": "2026-05-20",
+            "lugar": "Sala de Computación",
+            "tipo": "Falsa alarma",
+            "inspector": "Carlos Ramírez",
+            "estado": "CERRADO",
+            "nivelNovedad": "success"
+        }
+    ],
+    "graficosData": {
+        "incidentesPorMes": {
+            "labels": [
+                "Ene",
+                "Feb",
+                "Mar",
+                "Abr",
+                "May",
+                "Jun",
+                "Jul"
+            ],
+            "incidentes": [
+                12,
+                19,
+                25,
+                18,
+                30,
+                22,
+                15
+            ],
+            "alarmas": [
+                5,
+                8,
+                12,
+                9,
+                14,
+                10,
+                6
+            ]
+        },
+        "alarmasPorZona": {
+            "labels": [
+                "Patio Central",
+                "Biblioteca",
+                "Casino",
+                "Otras Zonas"
+            ],
+            "porcentajes": [
+                35,
+                25,
+                15,
+                25
+            ],
+            "cantidades": [
+                7,
+                5,
+                3,
+                5
+            ],
+            "colores": [
+                "#dc3545",
+                "#ffc107",
+                "#0d6efd",
+                "#198754"
+            ]
+        }
+    },
+    "configuracion": {
+        "modoOscuro": false,
+        "sonidosActivados": true,
+        "tiempoDuracionAlarmaSegundos": 30,
+        "volumenAlarma": 0.8,
+        "zoomPermitido": true
+    }
+}
