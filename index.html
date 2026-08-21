@@ -1,44 +1,59 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dashboard del Sistema de Seguridad Escolar SAFE SCHOOL">
-    <title>SAFE SCHOOL - SOSAfe Escolar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Dashboard del Sistema de Seguridad Escolar AulaVanguardia - Plataforma de prevención y monitoreo.">
+    <meta name="theme-color" content="#0d6efd">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>AulaVanguardia | Sistema de Seguridad Escolar</title>
 
-    <!-- Bootstrap 5 CSS (Framework UI) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <!-- Animate.css (Animaciones suaves) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <!-- SweetAlert2 CSS (Alertas y modales) -->
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+
+    <!-- CSS Frameworks -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
-    <!-- Leaflet CSS (Mapas Interactivos) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
-    <!-- Estilos Personalizados del Proyecto -->
+    
+    <!-- CSS Animaciones y Mapa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- CSS del Proyecto -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-        /* Ajustes UI/UX Generales */
         :root {
-            --sidebar-gradient: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            --av-bg-body: #f4f7f6;
+            --av-bg-sidebar: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+            --av-color-text: #212529;
+            --av-shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --av-shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.12);
+            --av-transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
-            background-color: #f4f7f6;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: var(--av-bg-body);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--av-color-text);
             overflow-x: hidden;
         }
 
-        .oculto {
-            display: none !important;
-        }
+        .oculto { display: none !important; }
+        .transition-hover { transition: var(--av-transition-base); }
 
-        /* Estilos Pantalla Estudiante (Móvil) */
-        .pantalla-estudiante {
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+
+        .pantalla-movil {
             min-height: 100vh;
             background: #ffffff;
             display: flex;
@@ -46,311 +61,278 @@
         }
 
         .sos-btn {
-            width: 220px;
-            height: 220px;
+            width: clamp(180px, 50vw, 220px);
+            height: clamp(180px, 50vw, 220px);
             border-radius: 50%;
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
             box-shadow: 0 15px 35px rgba(220, 53, 69, 0.4);
-            transition: all 0.1s ease;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
             border: 8px solid #f8d7da;
         }
 
         .sos-btn:active {
             transform: scale(0.92);
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.5);
         }
 
-        /* Estilos Pantalla Inspector (Sidebar original modificado) */
         #sidebar-wrapper {
-            background: var(--sidebar-gradient);
+            background: var(--av-bg-sidebar);
             min-height: 100vh;
             width: 260px;
-            transition: margin 0.3s ease-out;
+            transition: margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .list-group-item {
+        .sidebar-link {
             border: none;
             padding: 0.8rem 1.25rem;
-            transition: all 0.2s ease;
+            transition: var(--av-transition-base);
+            cursor: pointer;
         }
 
-        .list-group-item:hover:not(.active) {
+        .sidebar-link:hover:not(.active) {
             background-color: rgba(255, 255, 255, 0.1) !important;
             transform: translateX(4px);
         }
 
-        .list-group-item.active {
+        .sidebar-link.active {
             background-color: #0d6efd !important;
             box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
         }
 
-        .kpi-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
-        }
+        .kpi-card { transition: var(--av-transition-base); }
+        .kpi-card:hover { transform: translateY(-4px); box-shadow: var(--av-shadow-hover) !important; }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        /* Contenedor del Mapa Leaflet */
         #mapa-liceo {
-            height: 500px;
+            height: clamp(400px, 60vh, 500px);
             width: 100%;
             border-radius: 0.5rem;
             z-index: 1;
-            /* Previene superposición con modales */
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767.98px) {
             #sidebar-wrapper {
                 margin-left: -260px;
                 position: fixed;
                 z-index: 1050;
             }
-
-            #wrapper.toggled #sidebar-wrapper {
-                margin-left: 0;
-            }
+            #wrapper.toggled #sidebar-wrapper { margin-left: 0; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- ========================================== -->
-    <!-- PANTALLA 1: SELECTOR DE ROLES (LOGIN)      -->
-    <!-- ========================================== -->
-    <div id="vista-login"
-        class="container text-center d-flex flex-column justify-content-center align-items-center min-vh-100 animate__animated animate__fadeIn">
-        <div class="mb-5">
-            <div class="bg-primary bg-opacity-10 p-4 rounded-circle d-inline-block mb-3">
-                <i class="bi bi-shield-fill-check text-primary" style="font-size: 4rem;"></i>
+    <!-- BARRA NAVEGACIÓN EXCLUSIVA PARA EL DIRECTOR -->
+    <div id="director-nav" class="bg-dark text-white p-2 d-none shadow-sm position-sticky top-0 z-3">
+        <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center gap-2 px-3">
+            <div class="d-flex align-items-center gap-2">
+                <img src="assets/images/Aula-removebg-preview.png" alt="Logo" style="height: 30px;">
+                <span class="fw-bold small text-light">AulaVanguardia</span>
+                <span class="badge bg-warning text-dark fw-bold">Modo Director</span>
             </div>
-            <h1 class="fw-bold text-dark">SAFE SCHOOL</h1>
-            <p class="text-muted">Plataforma de Prevención y Seguridad - 2026</p>
-        </div>
-
-        <div class="d-flex flex-column flex-sm-row justify-content-center gap-4 w-100" style="max-width: 800px;">
-            <button class="btn btn-outline-info btn-lg py-4 flex-fill shadow-sm rounded-4"
-                onclick="app.cambiarVista('estudiante')">
-                <i class="bi bi-phone d-block mb-2" style="font-size: 2.5rem;"></i>
-                <span class="fw-bold">Ingreso Estudiantes</span>
-            </button>
-            <button class="btn btn-outline-success btn-lg py-4 flex-fill shadow-sm rounded-4"
-                onclick="app.cambiarVista('apoderado')">
-                <i class="bi bi-people d-block mb-2" style="font-size: 2.5rem;"></i>
-                <span class="fw-bold">Portal Familia</span>
-            </button>
-            <button class="btn btn-dark btn-lg py-4 flex-fill shadow-sm rounded-4"
-                onclick="app.cambiarVista('inspector')">
-                <i class="bi bi-pc-display d-block mb-2 text-primary" style="font-size: 2.5rem;"></i>
-                <span class="fw-bold">Sala de Control</span>
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-light" onclick="app.navegarVista('vista-estudiante')">
+                    <i class="bi bi-phone me-1"></i> Ingreso Estudiantes
+                </button>
+                <button class="btn btn-outline-light" onclick="app.navegarVista('vista-apoderado')">
+                    <i class="bi bi-people me-1"></i> Portal Familia
+                </button>
+                <button class="btn btn-outline-light" onclick="app.navegarVista('vista-inspector')">
+                    <i class="bi bi-pc-display me-1"></i> Sala de Control
+                </button>
+            </div>
+            <button class="btn btn-sm btn-danger fw-bold" onclick="app.cerrarSesion()">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
             </button>
         </div>
     </div>
 
     <!-- ========================================== -->
+    <!-- PANTALLA 1: INICIO DE SESIÓN CON ROLES     -->
+    <!-- ========================================== -->
+    <main id="vista-login" class="container text-center d-flex flex-column justify-content-center align-items-center min-vh-100 animate__animated animate__fadeIn">
+        <div class="card p-4 p-md-5 shadow-lg border-0 rounded-4 bg-white" style="max-width: 440px; width: 100%;">
+            <header class="mb-4">
+                <img src="assets/images/Aula-removebg-preview.png" alt="Logo AulaVanguardia" class="img-fluid mb-3" style="max-height: 95px; object-fit: contain;">
+                <h1 class="fw-bold text-dark h3">AulaVanguardia</h1>
+                <p class="text-muted small mb-0">Plataforma de Prevención y Seguridad - 2026</p>
+            </header>
+
+            <form id="form-login" onsubmit="app.iniciarSesion(event)">
+                <div class="form-floating mb-3 text-start">
+                    <input type="email" class="form-control rounded-3" id="login-email" placeholder="correo@ejemplo.com" required value="usuario@aulavanguardia.cl">
+                    <label for="login-email"><i class="bi bi-envelope me-1"></i> Correo Electrónico</label>
+                </div>
+
+                <div class="form-floating mb-3 text-start">
+                    <input type="password" class="form-control rounded-3" id="login-password" placeholder="Contraseña" required value="123456">
+                    <label for="login-password"><i class="bi bi-lock me-1"></i> Contraseña</label>
+                </div>
+
+                <div class="form-floating mb-4 text-start">
+                    <select class="form-select rounded-3 fw-medium" id="login-rol" required>
+                        <option value="" disabled selected>Seleccione su rol...</option>
+                        <option value="alumno">Alumno</option>
+                        <option value="apoderado">Apoderado</option>
+                        <option value="profesor-docente">Profesor-Docente</option>
+                        <option value="director">Director</option>
+                    </select>
+                    <label for="login-rol"><i class="bi bi-person-badge me-1"></i> Rol de Acceso</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-sm transition-hover fs-6">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
     <!-- PANTALLA 2: VISTA ESTUDIANTE (MÓVIL)       -->
     <!-- ========================================== -->
-    <div id="vista-estudiante" class="pantalla-estudiante oculto animate__animated animate__fadeIn">
-
-        <!-- Header Estudiante (Perfil Anónimo) -->
-        <div
-            class="bg-primary bg-opacity-10 p-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
-            <div class="d-flex align-items-center gap-3">
-                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm"
-                    style="width: 45px; height: 45px;">
-                    <i class="bi bi-incognito fs-4"></i>
-                </div>
+    <main id="vista-estudiante" class="pantalla-movil oculto animate__animated animate__fadeIn">
+        
+        <header class="bg-primary bg-opacity-10 p-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
+            <div class="d-flex align-items-center gap-2">
+                <img src="assets/images/Aula-removebg-preview.png" alt="Logo" style="height: 38px;">
                 <div class="lh-1">
-                    <small class="text-primary fw-bold d-block text-uppercase" style="font-size: 0.7rem;">Canal
-                        Seguro</small>
+                    <small class="text-primary fw-bold d-block text-uppercase" style="font-size: 0.7rem;">Canal Seguro</small>
                     <span class="fw-bold text-dark">Estudiante Anónimo</span>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3" onclick="app.cambiarVista('login')">
+            <button class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3" onclick="app.cerrarSesion()" aria-label="Cerrar sesión">
                 <i class="bi bi-box-arrow-right"></i> Salir
             </button>
-        </div>
+        </header>
 
-        <!-- Panel de Reportes -->
-        <div
-            class="flex-grow-1 d-flex flex-column justify-content-start align-items-center p-3 text-center overflow-auto">
+        <section class="flex-grow-1 d-flex flex-column justify-content-start align-items-center p-3 text-center overflow-auto custom-scrollbar">
+            <h2 class="h4 fw-bold mb-1 mt-3 text-dark">Central de Reportes</h2>
+            <p class="text-muted mb-4 small px-3">Selecciona el tipo de incidente. Tu ubicación se enviará de forma segura y anónima a Inspectoría.</p>
 
-            <h4 class="fw-bold mb-1 mt-3 text-dark">Central de Reportes</h4>
-            <p class="text-muted mb-4 small px-3">Selecciona el tipo de incidente. Tu ubicación se enviará de forma
-                segura y anónima a Inspectoría.</p>
-
-            <!-- Botón Principal (Peligro Inminente / S.O.S) -->
-            <button id="btn-sos"
-                class="btn btn-danger sos-btn fw-bold d-flex flex-column align-items-center justify-content-center mb-4 shadow"
-                onclick="app.enviarAlertaSOS('S.O.S Emergencia Extrema')">
-                <i class="bi bi-exclamation-triangle-fill mb-1" style="font-size: 3.5rem;"></i>
+            <button id="btn-sos" class="btn btn-danger sos-btn fw-bold d-flex flex-column align-items-center justify-content-center mb-4" onclick="app.enviarAlertaSOS('S.O.S Emergencia Extrema')">
+                <i class="bi bi-exclamation-triangle-fill mb-1" aria-hidden="true"></i>
                 S.O.S
             </button>
 
-            <!-- Grilla de Reportes Específicos -->
             <div class="w-100 mt-2" style="max-width: 400px;">
-                <h6 class="text-start text-muted fw-bold mb-3 border-bottom pb-2"><i
-                        class="bi bi-grid-fill me-2"></i>Otros Reportes Incidentes</h6>
+                <h3 class="h6 text-start text-muted fw-bold mb-3 border-bottom pb-2">
+                    <i class="bi bi-grid-fill me-2" aria-hidden="true"></i>Otros Reportes
+                </h3>
 
                 <div class="row g-3">
-                    <!-- Botón: Pelea / Conflicto -->
                     <div class="col-6">
-                        <button
-                            class="btn btn-warning w-100 h-100 py-3 rounded-4 shadow-sm border-0 d-flex flex-column align-items-center transition-hover"
-                            onclick="app.enviarAlertaSOS('Pelea / Conflicto')">
-                            <i class="bi bi-lightning-charge-fill text-dark mb-2" style="font-size: 2rem;"></i>
+                        <button class="btn btn-warning w-100 h-100 py-3 rounded-4 shadow-sm border-0 d-flex flex-column align-items-center transition-hover" onclick="app.enviarAlertaSOS('Pelea / Conflicto')">
+                            <i class="bi bi-lightning-charge-fill text-dark mb-2 fs-2"></i>
                             <span class="fw-bold text-dark small">Pelea / Conflicto</span>
                         </button>
                     </div>
-
-                    <!-- Botón: Bullying / Acoso -->
                     <div class="col-6">
-                        <button
-                            class="btn btn-info text-white w-100 h-100 py-3 rounded-4 shadow-sm border-0 d-flex flex-column align-items-center transition-hover"
-                            style="background-color: #0dcaf0;" onclick="app.enviarAlertaSOS('Bullying / Acoso')">
-                            <i class="bi bi-shield-slash-fill mb-2" style="font-size: 2rem;"></i>
+                        <button class="btn text-white w-100 h-100 py-3 rounded-4 shadow-sm border-0 d-flex flex-column align-items-center transition-hover" style="background-color: #0dcaf0;" onclick="app.enviarAlertaSOS('Bullying / Acoso')">
+                            <i class="bi bi-shield-slash-fill mb-2 fs-2"></i>
                             <span class="fw-bold small">Bullying / Acoso</span>
                         </button>
                     </div>
-
-                    <!-- Botón: Asistencia Médica -->
                     <div class="col-12">
-                        <button
-                            class="btn btn-success w-100 py-3 rounded-4 shadow-sm border-0 d-flex align-items-center justify-content-center gap-3 transition-hover"
-                            onclick="app.enviarAlertaSOS('Asistencia Médica')">
-                            <i class="bi bi-heart-pulse-fill" style="font-size: 2.2rem;"></i>
+                        <button class="btn btn-success w-100 py-3 rounded-4 shadow-sm border-0 d-flex align-items-center justify-content-center gap-3 transition-hover" onclick="app.enviarAlertaSOS('Asistencia Médica')">
+                            <i class="bi bi-heart-pulse-fill fs-3"></i>
                             <span class="fw-bold fs-5">Asistencia Médica</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Aviso Legal / GPS -->
-            <div class="mt-4 p-3 bg-white rounded-4 text-muted small border shadow-sm w-100 mb-3"
-                style="max-width: 400px;">
-                <i class="bi bi-geo-alt-fill text-danger me-1"></i> El uso de esta plataforma activa el hardware GPS.
-                Haz un uso responsable de los reportes.
-            </div>
-        </div>
-    </div>
+            <footer class="mt-4 p-3 bg-white rounded-4 text-muted small border shadow-sm w-100 mb-3" style="max-width: 400px;">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i> El uso de esta plataforma activa el hardware GPS. Haz un uso responsable.
+            </footer>
+        </section>
+    </main>
 
     <!-- ========================================== -->
-    <!-- PANTALLA 3: VISTA INSPECTOR (DASHBOARD)    -->
+    <!-- PANTALLA 3: VISTA SALA DE CONTROL          -->
     <!-- ========================================== -->
     <div class="d-flex oculto animate__animated animate__fadeIn" id="vista-inspector">
-
-        <!-- Sidebar -->
+        
         <aside class="text-white d-flex flex-column justify-content-between p-3 shadow-lg" id="sidebar-wrapper">
             <div>
-                <div
-                    class="sidebar-heading text-white py-3 fs-5 fw-bold d-flex align-items-center gap-3 border-bottom border-light border-opacity-25 mb-3">
-                    <div class="bg-white p-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center">
-                        <i class="bi bi-shield-fill-check text-primary fs-4"></i>
+                <div class="sidebar-heading text-white py-3 fs-5 fw-bold d-flex align-items-center gap-3 border-bottom border-light border-opacity-25 mb-3">
+                    <div class="bg-white p-1 rounded-3 shadow-sm d-flex align-items-center justify-content-center">
+                        <img src="assets/images/Aula-removebg-preview.png" alt="Logo AulaVanguardia" style="height: 32px;">
                     </div>
                     <div class="lh-1">
-                        <span class="d-block mb-1">SAFE SCHOOL</span>
-                        <small class="d-block text-white-50 fw-normal" style="font-size: 0.7rem;">Central de
-                            Operaciones</small>
+                        <span class="d-block mb-1">AulaVanguardia</span>
+                        <small class="d-block text-white-50 fw-normal" style="font-size: 0.7rem;">Central de Operaciones</small>
                     </div>
                 </div>
 
                 <nav class="list-group list-group-flush my-2">
-                    <a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-white rounded-3 mb-2 active"
-                        id="nav-dashboard" onclick="app.menuInspector('dashboard')"><i
-                            class="bi bi-grid-1x2-fill me-3"></i> Dashboard</a>
-                    <a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-white-50 rounded-3 mb-2"
-                        id="nav-mapa" onclick="app.menuInspector('mapa')"><i class="bi bi-map-fill me-3"></i> Rastreo
-                        GPS en vivo</a>
-                    <a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-white-50 rounded-3 mb-2"
-                        onclick="app.menuInspector('historial')"><i class="bi bi-clock-history me-3"></i> Historial
-                        Incidentes</a>
+                    <a role="button" tabindex="0" class="list-group-item list-group-item-action sidebar-link bg-transparent text-white rounded-3 mb-2 active" id="nav-dashboard" onclick="app.menuInspector('dashboard')">
+                        <i class="bi bi-grid-1x2-fill me-3"></i> Dashboard
+                    </a>
+                    <a role="button" tabindex="0" class="list-group-item list-group-item-action sidebar-link bg-transparent text-white-50 rounded-3 mb-2" id="nav-mapa" onclick="app.menuInspector('mapa')">
+                        <i class="bi bi-map-fill me-3"></i> Rastreo GPS en vivo
+                    </a>
+                    <a role="button" tabindex="0" class="list-group-item list-group-item-action sidebar-link bg-transparent text-white-50 rounded-3 mb-2" onclick="app.menuInspector('historial')">
+                        <i class="bi bi-clock-history me-3"></i> Historial Incidentes
+                    </a>
                     <hr class="border-secondary">
-                    <a href="#"
-                        class="list-group-item list-group-item-action bg-transparent text-info rounded-3 mb-2 fw-bold"
-                        onclick="app.crearComunicado()">
+                    <a role="button" tabindex="0" class="list-group-item list-group-item-action sidebar-link bg-transparent text-info rounded-3 mb-2 fw-bold" onclick="app.crearComunicado()">
                         <i class="bi bi-megaphone-fill me-3"></i> Enviar Comunicado
                     </a>
                 </nav>
             </div>
 
             <div class="card bg-black bg-opacity-25 border-0 rounded-4 p-3 text-white mt-auto shadow-sm">
-                <button class="btn btn-outline-light btn-sm w-100 fw-semibold" onclick="app.cambiarVista('login')">
+                <button class="btn btn-outline-light btn-sm w-100 fw-semibold" onclick="app.cerrarSesion()">
                     <i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión
                 </button>
             </div>
         </aside>
 
-        <!-- Contenido Principal -->
-        <div id="page-content-wrapper" class="w-100 d-flex flex-column" style="min-width: 0;">
-            <!-- Topbar -->
-            <header
-                class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3 sticky-top shadow-sm z-3">
+        <main id="page-content-wrapper" class="w-100 d-flex flex-column" style="min-width: 0;">
+            <header class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3 sticky-top shadow-sm z-3">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center w-100 gap-3">
                     <div class="d-flex align-items-center gap-3">
-                        <button class="btn btn-light d-md-none border shadow-sm" id="sidebarToggle"><i
-                                class="bi bi-list fs-4"></i></button>
+                        <button class="btn btn-light d-md-none border shadow-sm" id="sidebarToggle" aria-label="Alternar menú lateral">
+                            <i class="bi bi-list fs-4"></i>
+                        </button>
                         <div>
-                            <h1 class="h4 mb-1 fw-bold text-dark">Dashboard Central</h1>
-                            <small class="text-muted"><i class="bi bi-geo-alt"></i> Monitoreo Activo - Liceo
-                                Técnico</small>
+                            <h2 class="h4 mb-1 fw-bold text-dark">Dashboard Central</h2>
+                            <small class="text-muted"><i class="bi bi-geo-alt"></i> Monitoreo Activo - AulaVanguardia</small>
                         </div>
                     </div>
 
                     <div class="d-flex flex-wrap align-items-center gap-2">
-                        <button class="btn btn-success d-flex align-items-center gap-2 shadow-sm"
-                            id="btn-restablecer-paz" onclick="app.limpiarAlertasMapa()">
-                            <i class="bi bi-shield-check fs-5"></i> <span
-                                class="d-none d-lg-inline fw-semibold">Restablecer Paz</span>
+                        <button class="btn btn-success d-flex align-items-center gap-2 shadow-sm transition-hover" id="btn-restablecer-paz" onclick="app.limpiarAlertasMapa()">
+                            <i class="bi bi-shield-check fs-5"></i>
+                            <span class="d-none d-lg-inline fw-semibold">Restablecer Paz</span>
                         </button>
-                        <button
-                            class="btn btn-danger fw-bold animate__animated animate__pulse animate__infinite d-flex align-items-center gap-2 shadow-sm px-3"
-                            id="btn-alerta-general">
-                            <i class="bi bi-bell-fill fs-5"></i> <span>ALERTA GENERAL</span>
+                        <button class="btn btn-danger fw-bold animate__animated animate__pulse animate__infinite d-flex align-items-center gap-2 shadow-sm px-3 transition-hover" id="btn-alerta-general" onclick="app.enviarAlertaGeneral()">
+                            <i class="bi bi-bell-fill fs-5"></i>
+                            <span>ALERTA GENERAL</span>
                         </button>
                     </div>
                 </div>
             </header>
 
-            <main class="container-fluid p-3 p-md-4 flex-grow-1">
-                <!-- KPIs -->
-                <section class="row g-3 mb-4">
+            <div class="container-fluid p-3 p-md-4 flex-grow-1 overflow-auto custom-scrollbar">
+                <section class="row g-3 mb-4" aria-label="Métricas Principales">
                     <div class="col-6 col-md-3">
-                        <div
-                            class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-primary border-4 h-100 bg-white">
-                            <h6 class="text-muted mb-1 fs-7 text-uppercase fw-semibold">Alumnos Conectados</h6>
-                            <h3 class="fw-bold mb-0 text-dark">412</h3>
+                        <div class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-primary border-4 h-100 bg-white">
+                            <h3 class="text-muted mb-1 fs-7 text-uppercase fw-semibold h6">Alumnos Conectados</h3>
+                            <p class="fw-bold mb-0 text-dark fs-3 lh-1">412</p>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div
-                            class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-success border-4 h-100 bg-white">
-                            <h6 class="text-muted mb-1 fs-7 text-uppercase fw-semibold">Docentes / Inspectores</h6>
-                            <h3 class="fw-bold mb-0 text-dark">15</h3>
+                        <div class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-success border-4 h-100 bg-white">
+                            <h3 class="text-muted mb-1 fs-7 text-uppercase fw-semibold h6">Docentes / Inspectores</h3>
+                            <p class="fw-bold mb-0 text-dark fs-3 lh-1">15</p>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div
-                            class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-danger border-4 h-100 bg-danger bg-opacity-10 text-danger">
+                        <div class="card kpi-card border-0 shadow-sm rounded-4 p-3 border-start border-danger border-4 h-100 bg-danger bg-opacity-10 text-danger">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="mb-1 fs-7 text-uppercase fw-bold">S.O.S Activos Hoy</h6>
-                                    <h3 class="fw-bold mb-0" id="stat-alarmas">0</h3>
+                                    <h3 class="mb-1 fs-7 text-uppercase fw-bold h6">S.O.S Activos Hoy</h3>
+                                    <p class="fw-bold mb-0 fs-2 lh-1" id="stat-alarmas">0</p>
                                 </div>
                                 <i class="bi bi-exclamation-triangle-fill fs-1 opacity-50"></i>
                             </div>
@@ -358,106 +340,98 @@
                     </div>
                 </section>
 
-                <!-- MAPA LEAFLET Y FEED DE ALERTAS -->
                 <section class="row g-4 mb-4" id="seccion-mapa">
-
                     <div class="col-lg-8">
                         <div class="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden">
-                            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-                                <h5 class="card-title fw-bold mb-0 text-dark d-flex align-items-center gap-2">
-                                    <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-3"><i
-                                            class="bi bi-geo-alt-fill"></i></div>
+                            <header class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                                <h3 class="card-title h5 fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+                                    <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-3">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                    </div>
                                     Mapa GPS en Tiempo Real
-                                </h5>
-                            </div>
+                                </h3>
+                            </header>
                             <div class="card-body px-4 pb-4">
-                                <!-- Contenedor de Leaflet (Reemplaza al antiguo SVG) -->
-                                <div id="mapa-liceo"
-                                    class="border rounded-4 bg-light position-relative mt-3 shadow-inner"></div>
+                                <div id="mapa-liceo" class="border rounded-4 bg-light position-relative mt-3 shadow-inner"></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4">
                         <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
-                            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-                                <h5 class="card-title fw-bold mb-0 text-dark d-flex align-items-center gap-2">
-                                    <div class="bg-danger bg-opacity-10 text-danger p-2 rounded-3"><i
-                                            class="bi bi-broadcast"></i></div>
+                            <header class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                                <h3 class="card-title h5 fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+                                    <div class="bg-danger bg-opacity-10 text-danger p-2 rounded-3">
+                                        <i class="bi bi-broadcast"></i>
+                                    </div>
                                     Últimos S.O.S
-                                </h5>
-                            </div>
+                                </h3>
+                            </header>
                             <div class="card-body d-flex flex-column px-4 pb-4">
-                                <div class="d-flex flex-column gap-3 overflow-auto flex-grow-1 pe-2 mt-3 custom-scrollbar"
-                                    id="feed-alertas" style="max-height: 480px;">
-
-                                    <div class="text-center text-muted p-4 my-auto bg-light rounded-4 border border-dashed"
-                                        id="sin-alertas">
+                                <div class="d-flex flex-column gap-3 overflow-auto flex-grow-1 pe-2 mt-3 custom-scrollbar" id="feed-alertas" style="max-height: 480px;">
+                                    <div class="text-center text-muted p-4 my-auto bg-light rounded-4 border border-dashed" id="sin-alertas">
                                         <i class="bi bi-shield-check fs-1 text-success opacity-50 mb-3 d-block"></i>
                                         <p class="mb-0 fw-medium">Sin incidentes recientes.</p>
                                         <small class="text-muted">El establecimiento se encuentra seguro.</small>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
+
     <!-- ========================================== -->
-    <!-- PANTALLA 4: VISTA APODERADO                -->
+    <!-- PANTALLA 4: VISTA PORTAL FAMILIAR          -->
     <!-- ========================================== -->
-    <div id="vista-apoderado" class="pantalla-estudiante oculto animate__animated animate__fadeIn">
-        <div
-            class="bg-success bg-opacity-10 p-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
-            <div class="d-flex align-items-center gap-3">
-                <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm"
-                    style="width: 45px; height: 45px;">
-                    <i class="bi bi-house-heart-fill fs-4"></i>
-                </div>
+    <main id="vista-apoderado" class="pantalla-movil oculto animate__animated animate__fadeIn">
+        <header class="bg-success bg-opacity-10 p-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
+            <div class="d-flex align-items-center gap-2">
+                <img src="assets/images/Aula-removebg-preview.png" alt="Logo" style="height: 38px;">
                 <div class="lh-1">
-                    <small class="text-success fw-bold d-block text-uppercase" style="font-size: 0.7rem;">Portal
-                        Familia</small>
+                    <small class="text-success fw-bold d-block text-uppercase" style="font-size: 0.7rem;">Portal Familia</small>
                     <span class="fw-bold text-dark">Comunidad Escolar</span>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3" onclick="app.cambiarVista('login')">
+            <button class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3 transition-hover" onclick="app.cerrarSesion()" aria-label="Cerrar portal de familia">
                 <i class="bi bi-box-arrow-right"></i> Salir
             </button>
-        </div>
+        </header>
 
-        <div class="container mt-4" style="max-width: 600px;">
-            <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-app-indicator text-success me-2"></i>Muro de Avisos
-                Oficiales</h4>
-
+        <section class="container mt-4 flex-grow-1 overflow-auto custom-scrollbar" style="max-width: 600px;">
+            <h2 class="h4 fw-bold mb-4 text-dark border-bottom pb-2">
+                <i class="bi bi-app-indicator text-success me-2"></i>Muro de Avisos Oficiales
+            </h2>
             <div id="feed-comunicados" class="d-flex flex-column gap-3 pb-5">
-                <!-- Los comunicados se inyectan por JS aquí -->
+                <div class="card p-3 shadow-sm border-start border-4 border-success rounded-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-success">Oficial</span>
+                        <small class="text-muted">Hoy, 09:15 AM</small>
+                    </div>
+                    <h5 class="fw-bold h6 text-dark mb-1">Bienvenido al Portal Familiar AulaVanguardia</h5>
+                    <p class="text-muted small mb-0">En este espacio recibirá todas las notificaciones de seguridad y avisos importantes del colegio.</p>
+                </div>
             </div>
-        </div>
-    </div>
-    <!-- ========================================== -->
-    <!-- LIBRERÍAS EXTERNAS                         -->
-    <!-- ========================================== -->
+        </section>
+    </main>
+
+    <!-- Librerías JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Leaflet JS (Para el mapa) -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
 
-    <!-- ========================================== -->
-    <!-- LÓGICA DE LA APLICACIÓN (app.js)           -->
-    <!-- ========================================== -->
-    <script type="module" src="assets/js/app.js"></script>
-    <!-- Script rápido para Toggle Móvil del Dashboard -->
+    <!-- Lógica de la Aplicación -->
+    <script src="assets/js/app.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const wrapper = document.getElementById('vista-inspector');
             const toggleBtn = document.getElementById('sidebarToggle');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', () => {
+            if (toggleBtn && wrapper) {
+                toggleBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     wrapper.classList.toggle('toggled');
                 });
             }

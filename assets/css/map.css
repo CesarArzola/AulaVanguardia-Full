@@ -110,3 +110,23 @@
 .meeting-point:hover {
     transform: scale(1.2);
 }
+
+/* ==========================================================================
+   5. COMPATIBILIDAD MÓVIL Y MENÚ HAMBURGUESA
+   ========================================================================== */
+
+/* Responsive Sidebar (Menú Hamburguesa) */
+@media (max-width: 767.98px) {
+    #sidebar-wrapper {
+        margin-left: -260px;
+        position: fixed;
+        z-index: 1050;
+        /* Sombra adicional para destacar el menú sobre el contenido */
+        box-shadow: 4px 0 15px rgba(0,0,0,0.5); 
+    }
+    
+    /* Corrección del ID a #vista-inspector para que funcione con el JS */
+    #vista-inspector.toggled #sidebar-wrapper { 
+        margin-left: 0; 
+    }
+}
